@@ -20,11 +20,12 @@ class UtilisateurController extends Controller
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
             'cin' => 'required|string|max:20|unique:utilisateur,cin',
-            'telephone' => 'required|numeric', 
-            'date_naissance' => 'required|date', 
-            'travail' => 'nullable|string|max:255'
+            'telephone' => 'required|numeric',
+            'date_naissance' => 'required|date',
+            'travail' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:utilisateur,email',
+            'password' => 'required|string|min:8|confirmed'
         ]);
-    
         Utilisateur::create($data); 
     
         return redirect(route('utilisateur.index'))->with('success', 'Personne ajoutée avec succès.');

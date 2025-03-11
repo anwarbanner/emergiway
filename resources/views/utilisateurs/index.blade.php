@@ -26,6 +26,7 @@
                     <th>Téléphone</th>
                     <th>Date de naissance</th>
                     <th>Travail</th>
+                    <th>email</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -38,6 +39,7 @@
                         <td>{{ $utilisateur->telephone }}</td>
                         <td>{{ $utilisateur->date_naissance }}</td>
                         <td>{{ $utilisateur->travail }}</td>
+                        <td>{{ $utilisateur->email }}</td>
                         <td>
                            
                             <a href="{{ route('utilisateur.edit', $utilisateur->id) }}" class="btn btn-warning">Modifier</a>
