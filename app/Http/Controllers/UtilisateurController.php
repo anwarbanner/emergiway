@@ -7,9 +7,16 @@ use App\Models\utilisateur;
 
 class UtilisateurController extends Controller
 {
-    public function index() {
-        $utilisateurs = utilisateur::all(); 
-        return view('utilisateurs.index', compact('utilisateurs'));  
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+    
+        $utilisateurs = Utilisateur::when($search, function ($query) use ($search) {
+            return $query->where('nom', 'like', "%{$search}%")
+                         ->orWhere('matricule', 'like', "%{$search}%");
+        })->get();
+    
+        return view('utilisateurs.index', compact('utilisateurs'));
     }
     
     public function create(){
@@ -18,13 +25,12 @@ class UtilisateurController extends Controller
     public function saveutilisateur(Request $request) {
         $data = $request->validate([
             'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'cin' => 'required|string|max:20|unique:utilisateur,cin',
+            'matricule' => 'required|string|max:20|unique:utilisateurs,matricule',
             'telephone' => 'required|numeric',
             'date_naissance' => 'required|date',
             'travail' => 'nullable|string|max:255',
-            'email' => 'required|email|unique:utilisateur,email',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => 'required|string|min:8|confirmed',
+           
         ]);
         Utilisateur::create($data); 
     
@@ -43,11 +49,11 @@ class UtilisateurController extends Controller
     public function update(Request $request, $id) {
         $data = $request->validate([
             'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'cin' => 'required|string|max:20|unique:utilisateur,cin,' . $id,
+            'matricule' => 'required|string|max:20|unique:utilisateurs,matricule,' . $id,
             'telephone' => 'required|integer',
             'date_naissance' => 'required|date',
-            'travail' => 'nullable|string|max:255'
+            'travail' => 'nullable|string|max:255',
+            
         ]);
     
         $utilisateur = utilisateur::findOrFail($id);  

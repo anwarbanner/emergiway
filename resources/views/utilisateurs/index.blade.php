@@ -16,45 +16,44 @@
                 {{ session('success') }}
             </div>
         @endif
-
+    <form action="{{ route('utilisateur.index') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Rechercher par nom ou matricule" value="{{ request('search') }}">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </div>
+    </form>
         <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>CIN</th>
-                    <th>Téléphone</th>
-                    <th>Date de naissance</th>
-                    <th>Travail</th>
-                    <th>email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($utilisateurs as $utilisateur)
-                    <tr>
-                        <td>{{ $utilisateur->nom }}</td>
-                        <td>{{ $utilisateur->prenom }}</td>
-                        <td>{{ $utilisateur->cin }}</td>
-                        <td>{{ $utilisateur->telephone }}</td>
-                        <td>{{ $utilisateur->date_naissance }}</td>
-                        <td>{{ $utilisateur->travail }}</td>
-                        <td>{{ $utilisateur->email }}</td>
-                        <td>
-                           
-                            <a href="{{ route('utilisateur.edit', $utilisateur->id) }}" class="btn btn-warning">Modifier</a>
+        <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Matricule</th>
+        <th>Téléphone</th>
+        <th>Date de mise en circulation</th>
+        <th>fonctionnalite du véhicule</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach($utilisateurs as $utilisateur)
+        <tr>
+            <td>{{ $utilisateur->nom }}</td>
+            <td>{{ $utilisateur->matricule }}</td>
+            <td>{{ $utilisateur->telephone }}</td>
+            <td>{{ $utilisateur->date_naissance }}</td>
+            <td>{{ $utilisateur->travail }}</td>
+            <td>
+            <a href="{{ route('utilisateur.edit', $utilisateur->id) }}" class="btn btn-warning">Modifier</a>
 
-                           
-                            <form action="{{ route('utilisateur.destroy', $utilisateur->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Supprimer</button>
-                            </form>
+<form action="{{ route('utilisateur.destroy', $utilisateur->id) }}" method="POST" style="display:inline;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
 
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
         </table>
         <a href="{{ route('utilisateur.create') }}" class="btn btn-primary">create</a>
     </div>
