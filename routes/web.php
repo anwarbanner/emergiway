@@ -17,8 +17,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    //dd('Redirection vers utilisateur'); // Test pour voir si cette ligne est exécutée
     return redirect()->route('utilisateur.index'); 
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // Routes pour l'authentification (si tu les utilises avec Breeze ou Jetstream)
 Route::middleware('auth')->group(function () {
@@ -36,4 +38,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/utilisateur/{id}', [UtilisateurController::class, 'destroy'])->name('utilisateur.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

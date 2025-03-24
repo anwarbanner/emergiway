@@ -56,11 +56,26 @@ class UtilisateurController extends Controller
             
         ]);
     
-        $utilisateur = utilisateur::findOrFail($id);  
-        $utilisateur->update($data);  
+        // Trouver l'utilisateur à mettre à jour
+        $user = Utilisateur::findOrFail($id);
     
+        // Si le mot de passe est fourni, on le hashe avant de le sauvegarder
+        if ($request->has('password') && !empty($request->password)) {
+            $data['password'] = bcrypt($request->password);
+        } else {
+            // Si le mot de passe n'est pas fourni, ne pas changer l'ancien mot de passe
+            unset($data['password']);
+        }
+    
+        // Mettre à jour les données de l'utilisateur
+        $user->update($data);
+    
+        // Rediriger ou retourner une réponse
         return redirect()->route('utilisateur.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
+    
+
+       
     
     
     
