@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Utilisateur;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia as InertiaFacade;
 
 class UtilisateurController extends Controller
 {
@@ -21,7 +22,12 @@ class UtilisateurController extends Controller
             return response()->json(['data' => $utilisateurs], 200);
         }
 
-        return view('utilisateurs.index', compact('utilisateurs'));
+        return InertiaFacade::render('Utilisateur/Index', [
+            'utilisateurs' => $utilisateurs,
+            'auth' => [
+                'user' => $request->user(),
+            ],
+        ]);
     }
 
     public function create(Request $request)
@@ -30,7 +36,11 @@ class UtilisateurController extends Controller
             return response()->json(['message' => 'Form display not available via API'], 400);
         }
 
-        return view('utilisateurs.create');
+        return InertiaFacade::render('Utilisateur/Create', [
+            'auth' => [
+                'user' => $request->user(),
+            ],
+        ]);
     }
 
     public function saveutilisateur(Request $request)
@@ -74,7 +84,12 @@ class UtilisateurController extends Controller
             return response()->json(['data' => $utilisateur], 200);
         }
 
-        return view('utilisateurs.edit', compact('utilisateur'));
+        return InertiaFacade::render('Utilisateur/Edit', [
+            'utilisateur' => $utilisateur,
+            'auth' => [
+                'user' => $request->user(),
+            ],
+        ]);
     }
 
     public function update(Request $request, $id)

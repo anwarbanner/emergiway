@@ -5,20 +5,16 @@ use App\Http\Controllers\UtilisateurController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Inertia\Inertia as InertiaFacade;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    //dd('Redirection vers utilisateur'); // Test pour voir si cette ligne est exécutée
-    return redirect()->route('utilisateur.index'); 
+    return InertiaFacade::render('Home', [
+        'auth' => ['user' => auth()->user()],
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 

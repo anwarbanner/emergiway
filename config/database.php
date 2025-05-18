@@ -40,6 +40,8 @@ return [
             'busy_timeout' => null,
             'journal_mode' => null,
             'synchronous' => null,
+            // Add this line to enable schema dumping for SQLite
+            'schema_dumper' => true,
         ],
 
             'mysql' => [

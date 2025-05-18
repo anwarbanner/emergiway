@@ -20,6 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'address',
+        'profile_photo_path',
     ];
 
     /**
@@ -30,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'profile_photo_path',
     ];
 
     /**
@@ -41,20 +45,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'profile_photo_url',
+    ];
 
     /**
-     * Optional: Example relationship if you want user to own resources
+     * Get the URL for the user's profile photo.
+     *
+     * @return string
      */
-    // public function posts()
-    // {
-    //     return $this->hasMany(Post::class);
-    // }
-
-    /**
-     * Optional: Custom accessor for full name, etc.
-     */
-    // public function getFullNameAttribute()
-    // {
-    //     return "{$this->first_name} {$this->last_name}";
-    // }
+    public function getProfilePhotoUrlAttribute()
+    {
+        if ($this->profile_photo_path) {
+            return asset('storage/' . $this->profile_photo_path);
+        }
+        
+        return null;
+    }
 }
